@@ -1,0 +1,10 @@
+{
+  default {
+    minimumDiscordVersion 79201,
+    version 1.0.0,
+    build httpsraw.githubusercontent.comVendicatedAliucordPluginsbuilds%s.zip
+  },
+  Endpoints {
+    version 1.0.0
+  }
+}
