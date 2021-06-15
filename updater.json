@@ -1,10 +1,10 @@
 {
-  default {
-    minimumDiscordVersion 79201,
-    version 1.0.0,
-    build httpsraw.githubusercontent.comVendicatedAliucordPluginsbuilds%s.zip
+  "petpet": {
+    "version": "1.0.0"
   },
-  Endpoints {
-    version 1.0.0
+  "default": {
+    "version": "1.0.0",
+    "minimumDiscordVersion": 74107,
+    "build": "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/%s.zip"
   }
 }
