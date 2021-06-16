@@ -1,10 +1,11 @@
 {
-  "petpet": {
-    "version": "1.0.8"
-  },
-  "default": {
-    "version": "1.0.0",
-    "minimumDiscordVersion": 74107,
-    "build": "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/%s.zip"
-  }
+    "ExamplePlugin": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 1498
+    },
+    "default": {
+        "minimumDiscordVersion": 1456,
+        "version": "1.0.0",
+        "build": "https://raw.githubusercontent.com/USERNAME/REPONAME/builds/%s.apk"
+    }
 }
