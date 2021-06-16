@@ -1,7 +1,10 @@
 {
   "petpet": {
-    "version": "1.0.8"
+    "version": "1.0.9"
   },
+  "ExamplePlugin": {
+	  "version": "1.0.0"
+  }
   "default": {
     "version": "1.0.0",
     "minimumDiscordVersion": 74107,
