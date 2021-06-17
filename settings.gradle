@@ -1,4 +1,8 @@
 include ':ExamplePlugin'
+include ':Endpoints'
+include ':rapi'
+include ':petpet'
+include ':clapclap'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
@@ -7,7 +11,4 @@ project(':DiscordStubs').projectDir = new File('../repo/DiscordStubs')
 
 include ':Aliucord'
 project(':Aliucord').projectDir = new File('../repo/Aliucord')
-include ':Endpoints'
-include ':rapi'
-include ':petpet'
-include ':clapclap'
+
