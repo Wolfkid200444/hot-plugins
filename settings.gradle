@@ -1,4 +1,3 @@
-// include ':petpet'
 include ':clapclap'
 rootProject.name = "plugins"
 
