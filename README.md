@@ -5,4 +5,4 @@ and they suck actually they dont they gud
 
 ## Plugins
 
-- Clapclap = Get it over [here]()
+- Clapclap = Get it over [here](https://github.com/Wolfkid200444/hot-plugins/tree/builds)
