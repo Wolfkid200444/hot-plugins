@@ -1,6 +1,4 @@
 include ':ExamplePlugin'
-include ':Endpoints'
-include ':rapi'
 include ':petpet'
 include ':clapclap'
 rootProject.name = "plugins"
