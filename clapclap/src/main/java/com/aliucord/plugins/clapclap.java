@@ -28,7 +28,12 @@ public class clapclap extends Plugin {
         commands.registerCommand("clap", "Clap your messages", Collections.singletonList(CommandsAPI.requiredMessageOption), args -> {
             String msg = (String) args.get("message");
             if (msg == null) return new CommandsAPI.CommandResult(msg);
-            String Clap = TextUtils.join(":clap:", msg.split(" ", 0));
+            String Clap;
+            if(msg.length() == 1) {
+                Clap = TextUtils.join(" :clap: ", msg.split("", 0));
+            } else {
+                Clap = TextUtils.join(" :clap: ", msg.split(" ", 0));
+            }
             return new CommandsAPI.CommandResult(Clap);
         });
 
