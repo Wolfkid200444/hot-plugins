@@ -29,8 +29,8 @@ public class clapclap extends Plugin {
             String msg = (String) args.get("message");
             if (msg == null) return new CommandsAPI.CommandResult(msg);
             String Clap;
-            if(msg.length() == 1) {
-                String[] x = msg.split("", 0);
+            if(msg.length() <= 1) {
+                String[] x = msg.split("");
                 Clap = TextUtils.join(" :clap: ", x);
             } else {
                 Clap = TextUtils.join(" :clap: ", msg.split(" ", 0));
