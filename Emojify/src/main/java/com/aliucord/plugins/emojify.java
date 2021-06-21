@@ -27,7 +27,7 @@ public class emojify extends Plugin {
 
     @Override
     public void start(Context context) {
-        commands.registerCommand("clap", "Clap your messages", Collections.singletonList(CommandsAPI.requiredMessageOption), args -> {
+        commands.registerCommand("emojify", "Emojify your Messages", Collections.singletonList(CommandsAPI.requiredMessageOption), args -> {
             String msg = (String) args.get("message");
 
             if (msg == null) return new CommandsAPI.CommandResult(msg);
