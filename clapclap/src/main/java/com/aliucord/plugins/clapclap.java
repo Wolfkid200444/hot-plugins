@@ -32,9 +32,9 @@ public class clapclap extends Plugin {
             String Clap;
             if(Messafe.length <= 1) {
                 String[] x = msg.split("");
-                Clap = TextUtils.join(" :clap: ", x);
+                Clap = TextUtils.join(" \uD83D\uDC4F ", x);
             } else {
-                Clap = TextUtils.join(" :clap: ", msg.split(" ", 0));
+                Clap = TextUtils.join(" \uD83D\uDC4F ", msg.split(" ", 0));
             }
             return new CommandsAPI.CommandResult(Clap);
         });
