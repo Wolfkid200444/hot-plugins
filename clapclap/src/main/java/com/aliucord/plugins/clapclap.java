@@ -18,7 +18,7 @@ public class clapclap extends Plugin {
         Manifest manifest = new Manifest();
         manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wolfie", 282978672711827456L) };
         manifest.description = "Clap Clap?";
-        manifest.version = "1.0.3";
+        manifest.version = "1.0.4";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
@@ -28,8 +28,9 @@ public class clapclap extends Plugin {
         commands.registerCommand("clap", "Clap your messages", Collections.singletonList(CommandsAPI.requiredMessageOption), args -> {
             String msg = (String) args.get("message");
             if (msg == null) return new CommandsAPI.CommandResult(msg);
+            String[] Messafe = msg.trim().split(" ");
             String Clap;
-            if(msg.length() <= 1) {
+            if(Messafe.length <= 1) {
                 String[] x = msg.split("");
                 Clap = TextUtils.join(" :clap: ", x);
             } else {
