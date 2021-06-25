@@ -36,17 +36,6 @@ public class petpet extends Plugin {
                 Collections.singletonList(CommandsAPI.requiredMessageOption),
                 args -> {
 
-                    String msg = (String) args.get("message");
-                    if (msg == null) return new CommandsAPI.CommandResult(msg);
-                    String[] Messafe = msg.trim().split(" ");
-                    String Clap;
-                    if(Messafe.length <= 1) {
-                        String[] x = msg.split("");
-                        Clap = TextUtils.join(" \uD83D\uDC4F ", x);
-                    } else {
-                        Clap = TextUtils.join(" \uD83D\uDC4F ", msg.split(" ", 0));
-                    }
-                    return new CommandsAPI.CommandResult(Clap);
                 }
                 );
     }
