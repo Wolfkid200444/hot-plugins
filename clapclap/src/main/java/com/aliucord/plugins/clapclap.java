@@ -30,6 +30,7 @@ public class clapclap extends Plugin {
 
     @Override
     public void start(Context context) {
+
         commands.registerCommand(
                 "clap",
                 "Clap your messages",

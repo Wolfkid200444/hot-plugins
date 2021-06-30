@@ -1,4 +1,5 @@
 include ':clapclap'
+include ':Zoo'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
