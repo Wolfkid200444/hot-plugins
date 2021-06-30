@@ -20,8 +20,7 @@ public class zoo extends Plugin {
     @Override
     public Manifest getManifest() {
         Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[]{new Manifest.Author("Wolfie", 282978672711827456L)
-        };
+        manifest.authors = new Manifest.Author[]{new Manifest.Author("Wolfie", 282978672711827456L)};
         manifest.description = "Zoo";
         manifest.version = "1.0.0";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
@@ -34,7 +33,7 @@ public class zoo extends Plugin {
         commands.registerCommand("Dog", "get a doggy image :3", Collections.emptyList(), args -> {
                 try {
                         ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/dog", ApiResponse.class);
-                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("Cat!!").setImage(res.link);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e dog").setImage(res.link);
                         return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
                     } catch (IOException ex) {
                         return new CommandsAPI.CommandResult("No Dog founds", null, false);
