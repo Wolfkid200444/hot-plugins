@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 
 @SuppressWarnings("unused")
-public class zoo extends Plugin {
+public class Zoo extends Plugin {
 
     @NonNull
     @Override
