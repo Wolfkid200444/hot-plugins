@@ -23,7 +23,7 @@ public class clapclap extends Plugin {
                 )
         };
         manifest.description = "Clap Clap?";
-        manifest.version = "1.0.5";
+        manifest.version = "1.0.6";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
@@ -35,9 +35,8 @@ public class clapclap extends Plugin {
                 "clap",
                 "Clap your messages",
                 Collections.singletonList(CommandsAPI.requiredMessageOption),
-                args -> {
-            String msg = (String) args.get("message");
-            if (msg == null) return new CommandsAPI.CommandResult(msg);
+                ctx -> {
+            String msg = ctx.getRequiredString("message");
             String[] Messafe = msg.trim().split(" ");
             String Clap;
             if(Messafe.length <= 1) {
