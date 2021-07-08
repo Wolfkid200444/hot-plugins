@@ -30,13 +30,134 @@ public class Zoo extends Plugin {
     @Override
     public void start(Context context) {
 
-        commands.registerCommand("Dog", "get a doggy image :3", Collections.emptyList(), args -> {
+        commands.registerCommand(
+                "Dog",
+                "get a doggy image :3",
+                Collections.emptyList(),
+                ctx -> {
                 try {
                         ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/dog", ApiResponse.class);
                         var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e dog").setImage(res.link);
                         return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
                     } catch (IOException ex) {
                         return new CommandsAPI.CommandResult("No Dog founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Cat",
+                "get a Cat image, meow",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet(" https://some-random-api.ml/img/cat", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e cat").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Cats founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Panda",
+                "get a PaNde ImaGE",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/panda", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e PanDe").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Pandas founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "redpanda",
+                "get a Red PandE image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet(" https://some-random-api.ml/img/red_panda", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e Red Mystical Pande").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Red Pandas founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Fox",
+                "get a Fox Image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/fox", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e Fox").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Foxes founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Bird",
+                "get a Bird Image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/birb", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e BiRde").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Birds founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Koala",
+                "get a Koala image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/koala", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e Koale").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Koala founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Kangaroo",
+                "get a Kangaroo image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/kangaroo", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e Jumpy Boi").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Jumpy Bois Found founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Racoon",
+                "get a Racoon image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/racoon", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a e Stinky Boi").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Stinky Bois founds", null, false);
+                    }
+                });
+        commands.registerCommand(
+                "Whale",
+                "get a Whale image",
+                Collections.emptyList(),
+                ctx -> {
+                    try {
+                        ApiResponse res = Http.simpleJsonGet("https://some-random-api.ml/img/whale", ApiResponse.class);
+                        var eb = new MessageEmbedBuilder().setRandomColor().setTitle("is a Big uh Ocean Dolphine but bigger").setImage(res.link);
+                        return new CommandsAPI.CommandResult(null, Collections.singletonList(eb.build()), false);
+                    } catch (IOException ex) {
+                        return new CommandsAPI.CommandResult("No Whales found", null, false);
                     }
                 });
 
