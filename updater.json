@@ -2,6 +2,9 @@
   "clapclap": {
 	  "version": "1.0.6"
   },
+  "Zoo": {
+	  "version": "1.0.0"
+  },
   "default": {
     "version": "1.0.0",
     "minimumDiscordVersion": 83210,
