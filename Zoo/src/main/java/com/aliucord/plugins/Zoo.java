@@ -31,7 +31,7 @@ public class Zoo extends Plugin {
     public void start(Context context) {
 
         commands.registerCommand(
-                "Dog",
+                "dog",
                 "get a doggy image :3",
                 Collections.emptyList(),
                 ctx -> {
@@ -44,7 +44,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Cat",
+                "cat",
                 "get a Cat image, meow",
                 Collections.emptyList(),
                 ctx -> {
@@ -57,7 +57,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Panda",
+                "panda",
                 "get a PaNde ImaGE",
                 Collections.emptyList(),
                 ctx -> {
@@ -83,7 +83,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Fox",
+                "fox",
                 "get a Fox Image",
                 Collections.emptyList(),
                 ctx -> {
@@ -96,7 +96,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Bird",
+                "bird",
                 "get a Bird Image",
                 Collections.emptyList(),
                 ctx -> {
@@ -109,7 +109,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Koala",
+                "koala",
                 "get a Koala image",
                 Collections.emptyList(),
                 ctx -> {
@@ -122,7 +122,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Kangaroo",
+                "kangaroo",
                 "get a Kangaroo image",
                 Collections.emptyList(),
                 ctx -> {
@@ -135,7 +135,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Racoon",
+                "racoon",
                 "get a Racoon image",
                 Collections.emptyList(),
                 ctx -> {
@@ -148,7 +148,7 @@ public class Zoo extends Plugin {
                     }
                 });
         commands.registerCommand(
-                "Whale",
+                "whale",
                 "get a Whale image",
                 Collections.emptyList(),
                 ctx -> {
