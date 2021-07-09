@@ -2,23 +2,25 @@ package com.aliucord.plugins;
 
 import android.content.Context;
 import android.util.Base64;
+
 import androidx.annotation.NonNull;
 
 import com.aliucord.Http;
-import com.aliucord.Logger;
+import com.aliucord.Main;
 import com.aliucord.api.CommandsAPI;
-import com.aliucord.entities.MessageEmbedBuilder;
 import com.aliucord.entities.Plugin;
+import com.aliucord.utils.ReflectUtils;
 import com.discord.api.commands.ApplicationCommandType;
-import com.discord.api.user.User;
 import com.discord.models.commands.ApplicationCommandOption;
 import com.discord.stores.StoreStream;
+import com.lytefast.flexinput.model.Attachment;
 
 import java.io.ByteArrayOutputStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("unused")
-public class petpet extends Plugin {
+public class petthe extends Plugin {
     private static final String url = "https://api.obamabot.ml/image/petpet?avatar=";
 
     @NonNull
@@ -46,26 +48,26 @@ public class petpet extends Plugin {
                 "petpet",
                 "pet someone",
                 arguments,
-                args -> {
-                    Boolean shouldSend = (Boolean) args.get("send");
-                    var Username = (String) args.get("name");
+                ctx -> {
+                    Boolean shouldSend = ctx.getBool("send");
+                    if (shouldSend == null) {
+                        shouldSend = false;
+                    }
+                    var c = Attachment.class;
+
+                    var Username = ctx.getRequiredString("name");
                     var avatar = getUserAvatar(Username);
                     long parsedUserId = Long.parseLong(Username);
                 try {
                     var uri = imageToDataUri(parsedUserId, avatar);
+                    ReflectUtils.setField(c, uri, "displayName", "dogOrSomething.gif", true);
 
-                } catch(Exception e) {
-                        e.printStackTrace();
-                    return new CommandsAPI.CommandResult("Failed to fetch data", null, false);
-
-                }
-                        var embed = new MessageEmbedBuilder();
-                        embed.setTitle("Hello").setImage(uri).setColor(0x209CEE);
-                    return new CommandsAPI.CommandResult(null, Collections.singletonList(embed.build()), false);
+                } catch(Throwable e) { Main.logger.error(e); }
+                    return new CommandsAPI.CommandResult(ctx.getStringOrDefault("message", ""));
                 });
     }
 
-    private String getUserAvatar(String user) throws Exception {
+    private String getUserAvatar(String user) {
         long parsedUserId = Long.parseLong(user);
         var userStore = StoreStream.getUsers();
         var userinfo = userStore.getUsers().get(parsedUserId).getAvatar();
@@ -74,17 +76,18 @@ public class petpet extends Plugin {
 
     private String imageToDataUri(Long userId, String avatar) {
         try {
-            var res = new Http.Request(url + " https://cdn.discordapp.com/avatars/"+ userId + avatar + ".png" ).execute();
+            var res = new Http.Request(url + "https://cdn.discordapp.com/avatars/"+ userId + "/" + avatar + ".png" ).execute();
             try (var baos = new ByteArrayOutputStream()) {
                 res.pipe(baos);
-                var b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                String b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
                 return String.format("data:image/%s;base64,%s.gif", b64);
+
             }
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            return null;
+        } catch(Throwable e) {
+            Main.logger.error(e);
         }
-    }
+
+}
 
     @Override
     public void stop(Context context) {
