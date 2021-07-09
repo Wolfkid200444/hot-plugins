@@ -62,7 +62,8 @@ public class petthe extends Plugin {
                 } catch(Throwable e) { Main.logger.error(e); }
 //                    var embed = new MessageEmbedBuilder();
 //                    embed.setTitle("Hello").setImage(uri).setColor(0x209CEE);
-                    return new CommandsAPI.CommandResult(ctx.addAttachment(uri, "Petpet"));
+                    ctx.addAttachment(uri, "Petpet.gif")
+                    return new CommandsAPI.CommandResult();
                 });
     }
 
