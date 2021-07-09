@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.aliucord.Http;
 import com.aliucord.Main;
 import com.aliucord.api.CommandsAPI;
+import com.aliucord.entities.MessageEmbedBuilder;
 import com.aliucord.entities.Plugin;
 import com.aliucord.utils.ReflectUtils;
 import com.discord.api.commands.ApplicationCommandType;
@@ -17,6 +18,7 @@ import com.lytefast.flexinput.model.Attachment;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -42,28 +44,25 @@ public class petthe extends Plugin {
     @Override
     public void start(Context context) {
         ApplicationCommandOption UserId = new ApplicationCommandOption(ApplicationCommandType.USER, "name", "Mention someone", null, true, false, null, null);
-        ApplicationCommandOption shouldSendArg = new ApplicationCommandOption(ApplicationCommandType.BOOLEAN, "send", "To send output in the chat or not", null, false, false, null, null);
-        List<ApplicationCommandOption> arguments = Arrays.asList(UserId, shouldSendArg);
+        List<ApplicationCommandOption> arguments = Arrays.asList(UserId);
         commands.registerCommand(
                 "petpet",
                 "pet someone",
                 arguments,
                 ctx -> {
-                    Boolean shouldSend = ctx.getBool("send");
-                    if (shouldSend == null) {
-                        shouldSend = false;
-                    }
                     var c = Attachment.class;
 
                     var Username = ctx.getRequiredString("name");
                     var avatar = getUserAvatar(Username);
                     long parsedUserId = Long.parseLong(Username);
+                String uri = null;
                 try {
-                    var uri = imageToDataUri(parsedUserId, avatar);
+                    uri = imageToDataUri(parsedUserId, avatar);
                     ReflectUtils.setField(c, uri, "displayName", "dogOrSomething.gif", true);
-
                 } catch(Throwable e) { Main.logger.error(e); }
-                    return new CommandsAPI.CommandResult(ctx.getStringOrDefault("message", ""));
+                    var embed = new MessageEmbedBuilder();
+                    embed.setTitle("Hello").setImage(uri).setColor(0x209CEE);
+                    return new CommandsAPI.CommandResult(null, Collections.singletonList(embed.build()), false);
                 });
     }
 
@@ -75,18 +74,19 @@ public class petthe extends Plugin {
     }
 
     private String imageToDataUri(Long userId, String avatar) {
+        String b64 = null;
         try {
             var res = new Http.Request(url + "https://cdn.discordapp.com/avatars/"+ userId + "/" + avatar + ".png" ).execute();
             try (var baos = new ByteArrayOutputStream()) {
                 res.pipe(baos);
-                String b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-                return String.format("data:image/%s;base64,%s.gif", b64);
+                b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
 
             }
         } catch(Throwable e) {
             Main.logger.error(e);
+        } finally {
+            return String.format("data:image/%s;base64,%s.gif", b64);
         }
-
 }
 
     @Override
