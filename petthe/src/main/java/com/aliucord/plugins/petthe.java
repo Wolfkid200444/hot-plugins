@@ -58,11 +58,11 @@ public class petthe extends Plugin {
                 String uri = null;
                 try {
                     uri = imageToDataUri(parsedUserId, avatar);
-                    ReflectUtils.setField(c, uri, "displayName", "dogOrSomething.gif", true);
+                    // ctx.addAttachment()
                 } catch(Throwable e) { Main.logger.error(e); }
-                    var embed = new MessageEmbedBuilder();
-                    embed.setTitle("Hello").setImage(uri).setColor(0x209CEE);
-                    return new CommandsAPI.CommandResult(null, Collections.singletonList(embed.build()), false);
+//                    var embed = new MessageEmbedBuilder();
+//                    embed.setTitle("Hello").setImage(uri).setColor(0x209CEE);
+                    return new CommandsAPI.CommandResult(ctx.addAttachment(uri, "Petpet"));
                 });
     }
 
@@ -73,20 +73,13 @@ public class petthe extends Plugin {
         return userinfo;
     }
 
-    private String imageToDataUri(Long userId, String avatar) {
-        String b64 = null;
-        try {
+    private String imageToDataUri(Long userId, String avatar) throws Throwable {
             var res = new Http.Request(url + "https://cdn.discordapp.com/avatars/"+ userId + "/" + avatar + ".png" ).execute();
             try (var baos = new ByteArrayOutputStream()) {
                 res.pipe(baos);
-                b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-
+                String b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                return String.format("data:image/gif;base64," + b64);
             }
-        } catch(Throwable e) {
-            Main.logger.error(e);
-        } finally {
-            return String.format("data:image/%s;base64,%s.gif", b64);
-        }
 }
 
     @Override
