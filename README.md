@@ -6,3 +6,7 @@ and they suck actually they dont they gud
 ## Plugins
 
 - Clapclap = Get it over [here](https://github.com/Wolfkid200444/hot-plugins/tree/builds)
+
+- Zoo = Get it over [here](https://github.com/Wolfkid200444/hot-plugins/tree/builds)
+
+- Petthe = Get it over [here](https://github.com/Wolfkid200444/hot-plugins/tree/builds)
