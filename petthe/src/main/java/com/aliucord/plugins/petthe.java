@@ -19,7 +19,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public class petthe extends Plugin {
+public class PetPet extends Plugin {
     private static final String url = "https://api.obamabot.ml/image/petpet?avatar=";
 
     @NonNull
@@ -37,7 +37,7 @@ public class petthe extends Plugin {
                 )
         };
         manifest.description = "Pet pet";
-        manifest.version = "1.1.0";
+        manifest.version = "1.1.1";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
@@ -71,6 +71,7 @@ public class petthe extends Plugin {
         try (var fos = new FileOutputStream(f)) {
             res.pipe(fos);
         }
+        f.deleteOnExit();
         return f;
     }
 
