@@ -1,25 +1,22 @@
 package com.aliucord.plugins;
 
 import android.content.Context;
-import android.util.Base64;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import com.aliucord.Http;
 import com.aliucord.Main;
 import com.aliucord.api.CommandsAPI;
-import com.aliucord.entities.MessageEmbedBuilder;
 import com.aliucord.entities.Plugin;
-import com.aliucord.utils.ReflectUtils;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.models.commands.ApplicationCommandOption;
-import com.discord.stores.StoreStream;
-import com.lytefast.flexinput.model.Attachment;
+import com.discord.models.user.User;
+import com.discord.utilities.icon.IconUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class petthe extends Plugin {
@@ -29,59 +26,53 @@ public class petthe extends Plugin {
     @Override
     public Manifest getManifest() {
         Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[]{
+        manifest.authors = new Manifest.Author[] {
                 new Manifest.Author(
                         "Wolfie",
                         282978672711827456L
+                ),
+                new Manifest.Author(
+                        "Alyxia",
+                        465702500146610176L
                 )
         };
         manifest.description = "Pet pet";
-        manifest.version = "1.0.0";
+        manifest.version = "1.1.0";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
 
     @Override
     public void start(Context context) {
-        ApplicationCommandOption UserId = new ApplicationCommandOption(ApplicationCommandType.USER, "name", "Mention someone", null, true, false, null, null);
-        List<ApplicationCommandOption> arguments = Arrays.asList(UserId);
+        var arguments = new ArrayList<ApplicationCommandOption>();
+        arguments.add(new ApplicationCommandOption(ApplicationCommandType.USER, "name", "The user to pet", null, true, false, null, null));
         commands.registerCommand(
                 "petpet",
                 "pet someone",
                 arguments,
                 ctx -> {
-                    var c = Attachment.class;
-
-                    var Username = ctx.getRequiredString("name");
-                    var avatar = getUserAvatar(Username);
-                    long parsedUserId = Long.parseLong(Username);
-                String uri = null;
-                try {
-                    uri = imageToDataUri(parsedUserId, avatar);
-                    // ctx.addAttachment()
-                } catch(Throwable e) { Main.logger.error(e); }
-//                    var embed = new MessageEmbedBuilder();
-//                    embed.setTitle("Hello").setImage(uri).setColor(0x209CEE);
-                    ctx.addAttachment(uri, "Petpet.gif");
+                    User user = ctx.getRequiredUser("name");
+                    String avatar = IconUtils.getForUser(user);
+                    File file = null;
+                    try {
+                        file = imageToDataUri(avatar);
+                    } catch (Throwable e) {
+                        Main.logger.error(e);
+                    }
+                    assert file != null;
+                    ctx.addAttachment(Uri.fromFile(file).toString(), "petpet.gif");
                     return new CommandsAPI.CommandResult("");
                 });
     }
 
-    private String getUserAvatar(String user) {
-        long parsedUserId = Long.parseLong(user);
-        var userStore = StoreStream.getUsers();
-        var userinfo = userStore.getUsers().get(parsedUserId).getAvatar();
-        return userinfo;
+    private File imageToDataUri(String avatar) throws Throwable {
+        var res = new Http.Request(url + avatar).execute();
+        File f = File.createTempFile("temp", ".gif");
+        try (var fos = new FileOutputStream(f)) {
+            res.pipe(fos);
+        }
+        return f;
     }
-
-    private String imageToDataUri(Long userId, String avatar) throws Throwable {
-            var res = new Http.Request(url + "https://cdn.discordapp.com/avatars/"+ userId + "/" + avatar + ".png" ).execute();
-            try (var baos = new ByteArrayOutputStream()) {
-                res.pipe(baos);
-                String b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-                return String.format("data:image/gif;base64," + b64);
-            }
-}
 
     @Override
     public void stop(Context context) {
