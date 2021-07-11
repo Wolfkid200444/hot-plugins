@@ -5,6 +5,9 @@
   "Zoo": {
 	  "version": "1.0.0"
   },
+  "petthe": {
+	  "version": "1.1.0"
+  },
   "default": {
     "version": "1.0.0",
     "minimumDiscordVersion": 83210,
