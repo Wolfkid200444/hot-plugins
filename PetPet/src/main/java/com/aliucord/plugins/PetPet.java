@@ -37,7 +37,7 @@ public class PetPet extends Plugin {
                 )
         };
         manifest.description = "Pet pet";
-        manifest.version = "1.1.1";
+        manifest.version = "1.1.2";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
