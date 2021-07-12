@@ -55,7 +55,7 @@ public class PetPet extends Plugin {
                     String avatar = IconUtils.getForUser(user);
                     File file = null;
                     try {
-                        file = imageToDataUri(avatar);
+                        file = imageToDataUri(avatar, context);
                     } catch (Throwable e) {
                         Main.logger.error(e);
                     }
@@ -65,9 +65,9 @@ public class PetPet extends Plugin {
                 });
     }
 
-    private File imageToDataUri(String avatar) throws Throwable {
-        var res = new Http.Request(url + avatar).execute();
-        File f = File.createTempFile("temp", ".gif");
+    private File imageToDataUri(String avatar, Context mContext) throws Throwable {
+        var res = new Http.Request(url + avatar.replace("webp", "png")).execute();
+        File f = File.createTempFile("temp", ".gif", mContext.getCacheDir());
         try (var fos = new FileOutputStream(f)) {
             res.pipe(fos);
         }
