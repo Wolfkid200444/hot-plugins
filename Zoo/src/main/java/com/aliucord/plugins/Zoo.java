@@ -20,7 +20,12 @@ public class Zoo extends Plugin {
     @Override
     public Manifest getManifest() {
         Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[]{new Manifest.Author("Wolfie", 282978672711827456L)};
+        manifest.authors = new Manifest.Author[]{
+                new Manifest.Author(
+                        "Wolfie",
+                        282978672711827456L
+                )
+        };
         manifest.description = "Zoo";
         manifest.version = "1.0.0";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
