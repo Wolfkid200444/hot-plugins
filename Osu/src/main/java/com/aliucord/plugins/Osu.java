@@ -1,5 +1,7 @@
 package com.aliucord.plugins;
 
+import static com.aliucord.Http.simpleGet;
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
@@ -8,6 +10,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.aliucord.Http;
+import com.aliucord.Main;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
@@ -16,13 +20,16 @@ import com.aliucord.views.TextInput;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.models.commands.ApplicationCommandOption;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
-import osuAPI.OsuAPI;
-import osuAPI.OsuUser;
+import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class Osu extends Plugin {
+    private static final String BASE = "https://osu.ppy.sh/api/";
+
     public Osu () {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
     }
@@ -37,7 +44,7 @@ public class Osu extends Plugin {
         @SuppressWarnings("ResultOfMethodCallIgnored")
         public void onViewBound(View view) {
             super.onViewBound(view);
-            setActionBarTitle("OsU");
+            setActionBarTitle("Osu Settings");
 
             var context = view.getContext();
             var input = new TextInput(context);
@@ -48,7 +55,7 @@ public class Osu extends Plugin {
             assert editText != null;
 
             editText.setMaxLines(1);
-            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
             editText.setText(String.valueOf(settings.getString("token", "Blank")));
             editText.addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -76,15 +83,16 @@ public class Osu extends Plugin {
                         282978672711827456L
                 )
         };
-        manifest.description = "Pet pet";
-        manifest.version = "1.1.2";
+        manifest.description = "Search OSU Stats of someone";
+        manifest.version = "1.0.0";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
 
     @Override
     public void start(Context context) {
-        OsuAPI api = new OsuAPI(settings.getString("token", "Blank"));
+         String key = settings.getString("token", "Blank");
+
         var arguments = new ArrayList<ApplicationCommandOption>();
         arguments.add(new ApplicationCommandOption(ApplicationCommandType.STRING, "username", "Username of the player", null, true, false, null, null));
         commands.registerCommand(
@@ -93,9 +101,24 @@ public class Osu extends Plugin {
                 arguments,
                 ctx -> {
                     String user = ctx.getRequiredString("username");
-                    OsuUser something = api.getUser(user, 0);
-                    return new CommandsAPI.CommandResult("lol");
+                    String something = null;
+                    try {
+                        something = getUser(user, key);
+                        var obj = new JSONArray(new JSONTokener(something));
+                        String username = obj.getJSONObject(0).getString("username");
+                    } catch (Throwable e) {
+                        Main.logger.error(e);
+                    }
+
+                    return new CommandsAPI.CommandResult(something);
                 });
+    }
+
+    @NonNull
+    private String getUser(String user, String API_KEY) throws Throwable {
+        String url = simpleGet(BASE + "get_user?k=" + API_KEY + "&u=" + user);
+
+        return url;
     }
 
     @Override
