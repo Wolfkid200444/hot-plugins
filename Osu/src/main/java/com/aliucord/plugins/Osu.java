@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class Osu extends Plugin {
@@ -102,15 +105,41 @@ public class Osu extends Plugin {
                 ctx -> {
                     String user = ctx.getRequiredString("username");
                     String something = null;
+                    String dad = null;
                     try {
                         something = getUser(user, key);
                         var obj = new JSONArray(new JSONTokener(something));
                         String username = obj.getJSONObject(0).getString("username");
+                        String a = obj.getJSONObject(0).getString("accuracy");
+                        String pw = obj.getJSONObject(0).getString("pp_raw");
+                        String pr = obj.getJSONObject(0).getString("pp_rank");
+                        String c = obj.getJSONObject(0).getString("country");
+                        String pcr = obj.getJSONObject(0).getString("pp_country_rank");
+                        String p = obj.getJSONObject(0).getString("playcount");
+                        String ac = obj.getJSONObject(0).getString("accuracy");
+
+                        dad = String.format(
+                                Locale.ENGLISH,
+                                "__%s Stats__\n" +
+                                        "Global Rank: **%s** (:flag_%s: #%s)\n" +
+                                        "PP: **%s**\n" +
+                                        "Play Count: **%s**\n" +
+                                        "Accuracy: **%s**",
+
+                                username,
+                                pr,
+                                c.toLowerCase(),
+                                pcr,
+                                pw,
+                                p,
+                                ac.substring(0, 5)
+                                );
                     } catch (Throwable e) {
                         Main.logger.error(e);
                     }
 
-                    return new CommandsAPI.CommandResult(something);
+
+                    return new CommandsAPI.CommandResult(dad);
                 });
     }
 
