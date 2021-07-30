@@ -114,6 +114,7 @@ public class Osu extends Plugin {
                     }
                 });
     }
+    // Thanks for Xinto Lyrics Plugin https://github.com/X1nto/AliucordPlugins/blob/master/Lyrics/src/main/java/com/aliucord/plugins/Lyrics.java
     private CommandsAPI.CommandResult text(getUserData data) {
         var dad = String.format(Locale.ENGLISH,
                                 "__%s Stats__\n" +
