@@ -1,8 +1,10 @@
 package com.aliucord.plugins;
 
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -121,7 +123,7 @@ public class Osu extends Plugin {
                                         "Global Rank: **%s** (:flag_%s: #%s)\n" +
                                         "PP: **%s**\n" +
                                         "Play Count: **%s**\n" +
-                                        "Accuracy: **%s**" +
+                                        "Accuracy: **%s**\n" +
                                         "Time Played: **%s**",
                 data.username,
                 data.formated_pp_rank,
@@ -137,13 +139,24 @@ public class Osu extends Plugin {
 
     private CommandsAPI.CommandResult embed(getUserData data) {
         var embed = new MessageEmbedBuilder()
-                .setAuthor(data.username, null, null)
-                .setTitle(data.country)
-//                .setDescription(data.)
-//                .setUrl(data.url)
-//                .setThumbnail(data.album_art)
+                .setTitle(data.username)
+                .addField("INFO:", String.format(Locale.ENGLISH,
+                          "❯ Global Rank: **%s** (:flag_%s: #%s)\n" +
+                                "❯ PP: **%s**\n" +
+                                "❯ Play Count: **%s**\n" +
+                                "❯ Accuracy: **%s**\n" +
+                                "❯ Time Played: **%s**",
+                        data.formated_pp_rank,
+                        data.country.toLowerCase(),
+                        data.formated_pp_country_rank,
+                        data.pp_raw,
+                        data.playcount,
+                        data.short_accuracy,
+                        data.time_played
+                ), false)
+                .setUrl(data.user_profile)
+                .setThumbnail(data.picture)
                 .setColor(0x209CEE)
-//                .setFooter(String.format("Lyrics provided by KSoft.Si | © %s %s", data.artist, data.album_year.split(",")[0]), "https://external-content.duckduckgo.com/iu/?u=https://cdn.ksoft.si/images/Logo128.png")
                 .build();
 
         return new CommandsAPI.CommandResult(null, Collections.singletonList(embed), false, "Osu Stats");
