@@ -85,7 +85,7 @@ public class Osu extends Plugin {
                 )
         };
         manifest.description = "Search OSU Stats of someone";
-        manifest.version = "1.0.0";
+        manifest.version = "1.0.1";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
@@ -106,7 +106,6 @@ public class Osu extends Plugin {
                 ctx -> {
                     String user = ctx.getRequiredString("username");
                     var shouldSend = ctx.getBool("send");
-                    String dad = null;
                     try {
                         var data = getUser(user, finalKey);
                         return shouldSend ? text(data) : embed(data);
