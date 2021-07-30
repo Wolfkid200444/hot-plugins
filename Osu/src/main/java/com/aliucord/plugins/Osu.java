@@ -1,12 +1,9 @@
 package com.aliucord.plugins;
 
-import static com.aliucord.Http.simpleGet;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,23 +12,22 @@ import com.aliucord.Http;
 import com.aliucord.Main;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
+import com.aliucord.entities.MessageEmbedBuilder;
 import com.aliucord.entities.Plugin;
 import com.aliucord.fragments.SettingsPage;
+import com.aliucord.plugins.Data.getUserData;
 import com.aliucord.views.TextInput;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.models.commands.ApplicationCommandOption;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class Osu extends Plugin {
-    private static final String BASE = "https://osu.ppy.sh/api/";
+    private static final String BASE = "https://api.obamabot.ml/text/osu";
+    private Object getUserData;
 
     public Osu () {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
@@ -59,7 +55,7 @@ public class Osu extends Plugin {
 
             editText.setMaxLines(1);
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
-            editText.setText(String.valueOf(settings.getString("token", "Blank")));
+            editText.setText(String.valueOf(settings.getString("token", "")));
             editText.addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
                 public void onTextChanged(CharSequence s, int start, int before, int count) { }
@@ -67,7 +63,7 @@ public class Osu extends Plugin {
                     try {
                         settings.setString("token", s.toString());
                     } catch (Throwable ignored) {
-                        settings.setString("token", "Blank");
+                        settings.setString("token", "");
                     }
                 }
             });
@@ -94,59 +90,67 @@ public class Osu extends Plugin {
 
     @Override
     public void start(Context context) {
-         String key = settings.getString("token", "Blank");
-
+        String key = settings.getString("token", "");
+        if (key == "") key = "";
         var arguments = new ArrayList<ApplicationCommandOption>();
         arguments.add(new ApplicationCommandOption(ApplicationCommandType.STRING, "username", "Username of the player", null, true, false, null, null));
+        arguments.add(new ApplicationCommandOption(ApplicationCommandType.STRING, "send", "Send stats to chat or not", null, true, false, null, null));
+
+        String finalKey = key;
         commands.registerCommand(
                 "osu",
                 "Search someone stats",
                 arguments,
                 ctx -> {
                     String user = ctx.getRequiredString("username");
-                    String something = null;
+                    var shouldSend = ctx.getBool("send");
                     String dad = null;
                     try {
-                        something = getUser(user, key);
-                        var obj = new JSONArray(new JSONTokener(something));
-                        String username = obj.getJSONObject(0).getString("username");
-                        String a = obj.getJSONObject(0).getString("accuracy");
-                        String pw = obj.getJSONObject(0).getString("pp_raw");
-                        String pr = obj.getJSONObject(0).getString("pp_rank");
-                        String c = obj.getJSONObject(0).getString("country");
-                        String pcr = obj.getJSONObject(0).getString("pp_country_rank");
-                        String p = obj.getJSONObject(0).getString("playcount");
-                        String ac = obj.getJSONObject(0).getString("accuracy");
-
-                        dad = String.format(
-                                Locale.ENGLISH,
+                        var data = getUser(user, finalKey);
+                        return shouldSend ? text(data) : embed(data);
+                    } catch (Throwable e) {
+                        Main.logger.error(e);
+                        return new CommandsAPI.CommandResult("Pain nothing worked pain");
+                    }
+                });
+    }
+    private CommandsAPI.CommandResult text(getUserData data) {
+        var dad = String.format(Locale.ENGLISH,
                                 "__%s Stats__\n" +
                                         "Global Rank: **%s** (:flag_%s: #%s)\n" +
                                         "PP: **%s**\n" +
                                         "Play Count: **%s**\n" +
-                                        "Accuracy: **%s**",
-
-                                username,
-                                pr,
-                                c.toLowerCase(),
-                                pcr,
-                                pw,
-                                p,
-                                ac.substring(0, 5)
+                                        "Accuracy: **%s**" +
+                                        "Time Played: **%s**",
+                data.username,
+                data.formated_pp_rank,
+                data.country.toLowerCase(),
+                data.formated_pp_country_rank,
+                data.pp_raw,
+                data.playcount,
+                data.short_accuracy,
+                data.time_played
                                 );
-                    } catch (Throwable e) {
-                        Main.logger.error(e);
-                    }
+        return new CommandsAPI.CommandResult(dad);
+    }
 
+    private CommandsAPI.CommandResult embed(getUserData data) {
+        var embed = new MessageEmbedBuilder()
+                .setAuthor(data.username, null, null)
+                .setTitle(data.country)
+//                .setDescription(data.)
+//                .setUrl(data.url)
+//                .setThumbnail(data.album_art)
+                .setColor(0x209CEE)
+//                .setFooter(String.format("Lyrics provided by KSoft.Si | © %s %s", data.artist, data.album_year.split(",")[0]), "https://external-content.duckduckgo.com/iu/?u=https://cdn.ksoft.si/images/Logo128.png")
+                .build();
 
-                    return new CommandsAPI.CommandResult(dad);
-                });
+        return new CommandsAPI.CommandResult(null, Collections.singletonList(embed), false, "Osu Stats");
     }
 
     @NonNull
-    private String getUser(String user, String API_KEY) throws Throwable {
-        String url = simpleGet(BASE + "get_user?k=" + API_KEY + "&u=" + user);
-
+    private getUserData getUser(String user, String API_KEY) throws Throwable {
+        var url = (getUserData) Http.simpleJsonGet(BASE + "?user=" + user + "&token=" + API_KEY, getUserData.class);
         return url;
     }
 
