@@ -112,7 +112,7 @@ public class Osu extends Plugin {
                         return shouldSend ? text(data) : embed(data);
                     } catch (Throwable e) {
                         Main.logger.error(e);
-                        return new CommandsAPI.CommandResult("Pain nothing worked pain");
+                        return new CommandsAPI.CommandResult("Failed to fetch Data lol", null, false);
                     }
                 });
     }
