@@ -8,6 +8,9 @@
   "PetPet": {
     "version": "1.1.2"
   },
+  "Osu": {
+    "version": "1.0.0"
+  },
   "default": {
     "version": "1.0.0",
     "minimumDiscordVersion": 83210,
