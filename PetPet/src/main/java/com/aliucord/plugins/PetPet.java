@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unused")
 public class PetPet extends Plugin {
-    private static final String url = "https://api.obamabot.ml/image/petpet?avatar=";
+    private static final String url = "https://api.obamabot.ml/v1/image/petpet?avatar=";
 
     @NonNull
     @Override
@@ -37,7 +37,7 @@ public class PetPet extends Plugin {
                 )
         };
         manifest.description = "Pet pet";
-        manifest.version = "1.1.2";
+        manifest.version = "1.1.3";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }

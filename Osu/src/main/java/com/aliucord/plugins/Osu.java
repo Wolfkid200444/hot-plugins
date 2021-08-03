@@ -28,7 +28,7 @@ import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class Osu extends Plugin {
-    private static final String BASE = "https://api.obamabot.ml/text/osu";
+    private static final String BASE = "https://api.obamabot.ml/v1/text/osu";
     private Object getUserData;
 
     public Osu () {
@@ -85,7 +85,7 @@ public class Osu extends Plugin {
                 )
         };
         manifest.description = "Search OSU Stats of someone";
-        manifest.version = "1.0.1";
+        manifest.version = "1.0.2";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         return manifest;
     }
