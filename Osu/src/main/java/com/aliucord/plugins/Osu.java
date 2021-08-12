@@ -85,7 +85,7 @@ public class Osu extends Plugin {
                 )
         };
         manifest.description = "Search OSU Stats of someone";
-        manifest.version = "1.0.2";
+        manifest.version = "1.0.3";
         manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
         manifest.changelog = "Switch from API from V1 to V2 which means more access to the osu api also this means this is a unstable Version but theres like not alot breaking changes as well\n" +
                 "Ive also added PlayStyle, Joined time and last seen on both text and embed( Embed has feature to check if the user is online or not)";
