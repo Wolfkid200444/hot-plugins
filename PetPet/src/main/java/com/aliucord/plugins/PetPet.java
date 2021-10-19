@@ -35,7 +35,7 @@ public class PetPet extends Plugin {
 
     @Override
     public void start(Context context) {
-        var arguments = new Arrays.asList(
+        var arguments = Arrays.asList(
        Utils.createCommandOption(ApplicationCommandType.USER, "name", "The user to pet", null, true, false)
         );
         commands.registerCommand(
