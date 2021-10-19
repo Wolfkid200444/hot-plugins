@@ -1,12 +1,16 @@
+import com.aliucord.gradle.AliucordExtension
 import com.android.build.gradle.BaseExtension
 
 buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.0")
+        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
+        classpath("com.github.Aliucord:gradle:main-SNAPSHOT")
     }
 }
 
@@ -17,35 +21,49 @@ allprojects {
     }
 }
 
-fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
+fun Project.android(configuration: BaseExtension.() -> Unit) =
+        extensions.getByName<BaseExtension>("android").configuration()
+
+fun Project.aliucord(configuration: AliucordExtension.() -> Unit) =
+        extensions.getByName<AliucordExtension>("aliucord").configuration()
 
 subprojects {
-    if (name != "Aliucord" && name != "DiscordStubs") {
-        apply(plugin = "com.android.library")
+    apply(plugin = "com.android.library")
+    apply(plugin = "com.aliucord.gradle")
+    apply(plugin = "kotlin-android")
 
-        android {
-            compileSdkVersion(30)
+    aliucord {
+        author("Wolfie", 282978672711827456)
+        updateUrl.set("https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/%s.zip")
+    }
 
-            defaultConfig {
-                minSdk = 24
-                targetSdk = 30
-            }
+    android {
+        compileSdkVersion(30)
 
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_11
-                targetCompatibility = JavaVersion.VERSION_11
-            }
+        defaultConfig {
+            minSdk = 24
+            targetSdk = 30
         }
 
-        dependencies {
-            val implementation by configurations
-
-            implementation(project(":Aliucord"))
-
-            implementation("androidx.appcompat:appcompat:1.3.1")
-            implementation("com.google.android.material:material:1.4.0")
-            implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
         }
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
+
+    dependencies {
+        val discord by configurations
+        val compileOnly by configurations
+
+        discord("com.discord:discord:aliucord-SNAPSHOT")
+        compileOnly("com.github.Aliucord:Aliucord:main-SNAPSHOT")
     }
 }
 

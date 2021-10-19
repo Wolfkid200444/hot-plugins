@@ -12,35 +12,19 @@ package com.aliucord.plugins;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.aliucord.Http;
+import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.MessageEmbedBuilder;
 import com.aliucord.entities.Plugin;
 import com.aliucord.plugins.zooapi.ApiResponse;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
 
 @SuppressWarnings("unused")
+@AliucordPlugin
 public class Zoo extends Plugin {
-
-    @NonNull
-    @Override
-    public Manifest getManifest() {
-        Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[]{
-                new Manifest.Author(
-                        "Wolfie",
-                        282978672711827456L
-                )
-        };
-        manifest.description = "Zoo";
-        manifest.version = "1.0.0";
-        manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
-        return manifest;
-    }
 
     @Override
     public void start(Context context) {
