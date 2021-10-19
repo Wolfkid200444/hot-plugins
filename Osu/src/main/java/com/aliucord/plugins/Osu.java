@@ -21,22 +21,25 @@ import androidx.annotation.NonNull;
 
 import com.aliucord.Http;
 import com.aliucord.Main;
+import com.aliucord.Utils;
+import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.MessageEmbedBuilder;
 import com.aliucord.entities.Plugin;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.plugins.Data.getUserData;
+import com.aliucord.plugins.Data.getUserRecent;
 import com.aliucord.views.TextInput;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.message.embed.MessageEmbed;
-import com.discord.models.commands.ApplicationCommandOption;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 
 @SuppressWarnings("unused")
+@AliucordPlugin
 public class Osu extends Plugin {
     private static final String BASE = "https://api.obamabot.ml/v2/text/osu";
     private Object getUserData;
@@ -84,38 +87,23 @@ public class Osu extends Plugin {
         }
     }
 
-    @NonNull
-    @Override
-    public Manifest getManifest() {
-        Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[] {
-                new Manifest.Author(
-                        "Wolfie",
-                        282978672711827456L
-                )
-        };
-        manifest.description = "Search OSU Stats of someone";
-        manifest.version = "1.0.3";
-        manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
-        manifest.changelog = "Switch from API from V1 to V2 which means more access to the osu api also this means this is a unstable Version but theres like not alot breaking changes as well\n" +
-                "Ive also added PlayStyle, Joined time and last seen on both text and embed( Embed has feature to check if the user is online or not)";
-        manifest.changelogMedia = "https://media.discordapp.net/attachments/786033348577067029/875455571237670972/2201021.png";
-        return manifest;
-    }
-
     @Override
     public void start(Context context) {
         String key = settings.getString("username", "");
         if (key.equals("")) key = "";
-        var arguments = Arrays.asList(
-        new ApplicationCommandOption(ApplicationCommandType.STRING, "username", "Username of the player", null, false, false, null, null),
-        new ApplicationCommandOption(ApplicationCommandType.STRING, "send", "Send stats to chat or not", null, false, false, null, null)
+        var farguments = Arrays.asList(
+                Utils.createCommandOption(ApplicationCommandType.STRING, "username", "Username of the player", null, false, false, null, null),
+                Utils.createCommandOption(ApplicationCommandType.STRING, "send", "Send stats to chat or not", null, false, false, null, null)
+        );
+        var Sarguments = Arrays.asList(
+                Utils.createCommandOption(ApplicationCommandType.STRING, "username", "Username of the player", null, false, false, null, null),
+                Utils.createCommandOption(ApplicationCommandType.STRING, "send", "Send stats to chat or not", null, false, false, null, null)
         );
         String finalKey = key;
         commands.registerCommand(
                 "osu",
                 "Search someone stats",
-                arguments,
+                farguments,
                 ctx -> {
                     String user = ctx.getString("username");
                     var shouldSend = ctx.getBool("send");
@@ -128,9 +116,27 @@ public class Osu extends Plugin {
                         return new CommandsAPI.CommandResult("Failed to fetch Data lol", null, false, "Peppi sad", "https://i.imgur.com/eRTuzdt.png");
                     }
                 });
+                commands.registerCommand(
+                "recent",
+                "Recent Score",
+                farguments,
+                ctx -> {
+                    String user = ctx.getString("username");
+                    var shouldSend = ctx.getBool("send");
+                    if (shouldSend == null) shouldSend = false;
+                    try {
+                        getUserData data = getUser(user, finalKey);
+                        return shouldSend ? userText(data) : userEmbed(data);
+                    } catch (Throwable e) {
+                        Main.logger.error(e);
+                        return new CommandsAPI.CommandResult("Failed to fetch Data lol", null, false, "Peppi sad", "https://i.imgur.com/eRTuzdt.png");
+                    }
+                }
+        );
     }
     // Thanks for Xinto Lyrics Plugin https://github.com/X1nto/AliucordPlugins/blob/master/Lyrics/src/main/java/com/aliucord/plugins/Lyrics.java
     private CommandsAPI.CommandResult userText(getUserData data) {
+        var custom = data.custom.get(0);
         String dad = String.format(Locale.ENGLISH,
                                 "__%s Stats__\n" +
                                         "Global Rank: **%s** (:flag_%s: #%s)\n" +
@@ -142,16 +148,16 @@ public class Osu extends Plugin {
                                         "Last seen: **%s**\n" +
                                         "Joined: **%s**",
                 data.username,
-                data.custom.get(0).pp_rank,
+                custom.pp_rank,
                 data.country_code.toLowerCase(),
-                data.custom.get(0).pp_country_rank,
-                data.custom.get(0).pp_raw,
-                data.custom.get(0).playcount,
-                data.custom.get(0).hit_accuracy,
-                data.custom.get(0).time_played,
-                data.custom.get(0).playstyles,
-                data.custom.get(0).format_last_visit,
-                data.custom.get(0).format_join_date
+                custom.pp_country_rank,
+                custom.pp_raw,
+                custom.playcount,
+                custom.hit_accuracy,
+                custom.time_played,
+                custom.playstyles,
+                custom.format_last_visit,
+                custom.format_join_date
 
 
         );
@@ -159,6 +165,7 @@ public class Osu extends Plugin {
     }
 
     private CommandsAPI.CommandResult userEmbed(getUserData data) {
+        var custom = data.custom.get(0);
         MessageEmbed embed = new MessageEmbedBuilder()
                 .setTitle(data.username)
                 .addField("INFO:", String.format(Locale.ENGLISH,
@@ -168,14 +175,14 @@ public class Osu extends Plugin {
                                 "❯ Hit Accuracy: **%s**%%\n" +
                                 "❯ Time Played: **%s**\n" +
                                 "❯ Playstyle: **%s**",
-                        data.custom.get(0).pp_rank,
+                        custom.pp_rank,
                         data.country_code.toLowerCase(),
-                        data.custom.get(0).pp_country_rank,
-                        data.custom.get(0).pp_raw,
-                        data.custom.get(0).playcount,
-                        data.custom.get(0).hit_accuracy,
-                        data.custom.get(0).time_played,
-                        data.custom.get(0).playstyles
+                        custom.pp_country_rank,
+                        custom.pp_raw,
+                        custom.playcount,
+                        custom.hit_accuracy,
+                        custom.time_played,
+                        custom.playstyles
                 ), false)
                 .setUrl(data.user_profile)
                 .setThumbnail(data.avatar_url)
@@ -190,6 +197,11 @@ public class Osu extends Plugin {
     private getUserData getUser(String user, String storeUsername) throws Throwable {
         if (user == null) user = storeUsername;
         return Http.simpleJsonGet(BASE + "?user=" + user + "&mode=", getUserData.class);
+    }
+
+    private getUserRecent getRecent(String user, String storeUsername) throws Throwable {
+        if (user == null) user = storeUsername;
+        return Http.simpleJsonGet(BASE + "?user=" + user + "&mode=", getUserRecent.class);
     }
 
     @Override

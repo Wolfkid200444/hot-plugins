@@ -15,28 +15,14 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.Plugin;
 import java.util.*;
 
 @SuppressWarnings("unused")
+@AliucordPlugin
 public class clapclap extends Plugin {
-
-    @NonNull
-    @Override
-    public Manifest getManifest() {
-        Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[]{
-                new Manifest.Author(
-                        "Wolfie",
-                        282978672711827456L
-                )
-        };
-        manifest.description = "Clap Clap?";
-        manifest.version = "1.0.6";
-        manifest.updateUrl = "https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json";
-        return manifest;
-    }
 
     @Override
     public void start(Context context) {
