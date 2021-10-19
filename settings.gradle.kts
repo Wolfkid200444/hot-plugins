@@ -1,12 +1,9 @@
 include(":clapclap")
+project(":clapclap").projectDir = File("./clapclap")
 include(":Zoo")
+project(":Zoo").projectDir = File("./Zoo")
 include(":PetPet")
+project(":PetPet").projectDir = File("./PetPet")
 include(":Osu")
+project(":Osu").projectDir = File("./Osu")
 rootProject.name = "plugins"
-
-include(":DiscordStubs")
-project(":DiscordStubs").projectDir = File("../repo/DiscordStubs")
-
-
-include(":Aliucord")
-project(":Aliucord").projectDir = File("../repo/Aliucord")
