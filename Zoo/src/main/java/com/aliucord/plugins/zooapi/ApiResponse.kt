@@ -7,9 +7,9 @@
  * You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+package com.aliucord.plugins.zooapi
 
-package com.aliucord.plugins.zooapi;
-
-public class ApiResponse {
-    public String link;
+class ApiResponse {
+    @JvmField
+    var link: String? = null
 }

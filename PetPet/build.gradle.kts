@@ -1,4 +1,4 @@
-version = "1.1.4"
+version = "1.1.5"
 description = "Pet pet"
 
 aliucord {
@@ -6,6 +6,8 @@ aliucord {
 
     changelog.set(
             """
+            # 1.1.5
+            * Convert from Java to Kotlin
                 
             # 1.1.4
             * Support For V96
