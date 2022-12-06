@@ -40,7 +40,7 @@ subprojects {
 
     // Fill out with your info
     aliucord {
-        author("Wolfie", 282978672711827456)
+        author("ThatWolf", 347096063569559553)
         updateUrl.set("https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/updater.json")
         buildUrl.set("https://raw.githubusercontent.com/Wolfkid200444/hot-plugins/builds/%s.zip")
     }
