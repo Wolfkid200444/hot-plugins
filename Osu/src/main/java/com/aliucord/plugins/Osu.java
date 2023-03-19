@@ -41,7 +41,7 @@ import java.util.Locale;
 @SuppressWarnings("unused")
 @AliucordPlugin
 public class Osu extends Plugin {
-    private static final String BASE = "https://api.obamabot.ml/v2/text/osu";
+    private static final String BASE = "https://api.obamabot.me/v2/text/osu";
     private Object getUserData;
 
     public Osu () {
