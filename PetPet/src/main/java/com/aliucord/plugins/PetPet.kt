@@ -69,6 +69,6 @@ class PetPet : Plugin() {
     }
 
     companion object {
-        private const val url = "https://api.obamabot.cf/v1/image/petpet?avatar="
+        private const val url = "https://api.obamabot.me/v1/image/petpet?avatar="
     }
 }
