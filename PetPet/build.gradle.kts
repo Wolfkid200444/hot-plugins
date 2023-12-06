@@ -1,4 +1,4 @@
-version = "1.1.6"
+version = "1.1.7"
 description = "Pet pet"
 
 aliucord {
@@ -6,6 +6,9 @@ aliucord {
 
     changelog.set(
             """
+            # 1.1.7   
+            * Change api
+             
             # 1.1.6
             * Change api
             
