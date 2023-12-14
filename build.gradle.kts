@@ -16,7 +16,7 @@ buildscript {
         // Aliucord gradle plugin which makes everything work and builds plugins
         classpath("com.aliucord:gradle:main-SNAPSHOT")
         // Kotlin support. Remove if you want to use Java
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
     }
 }
 
